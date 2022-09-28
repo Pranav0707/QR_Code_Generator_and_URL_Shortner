@@ -1,0 +1,64 @@
+{% load qr_code %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Url Shortner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container my-4">
+        <h1> Url Shortner</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">URL</label>
+                <input type="text" class="form-control" name='url' aria-describedby="emailHelp" placeholder="Enter Url">
+            </div>
+            <button type="submit" class="btn btn-primary my-2">Submit</button>
+        </form>
+        <!-- {%if image_name %}
+        <img src="/media/{{image_name}}">
+        {% endif %} -->
+
+        <!-- {% qr_from_text "Hello World!" size="T" %} -->
+
+
+        {%if table_data %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Long Url</th>
+                    <th scope="col">Short Url</th>
+                    <th scope="col">QR Code</th>
+                </tr>
+            </thead>
+            {% for data in table_data %}
+            <tbody>
+                <tr>
+                    <td scope="col"><a href="{{data.link}}" target="_blank">{{data.link}}</a></td>
+                    <td scope="col"><a href="{{data.short_url}}" target="_blank"
+                            title="Shortened Url of {{data.link}}">{{data.short_url}}</a></td>
+                    <td scope="col"><img id='barcode'
+                            src="https://api.qrserver.com/v1/create-qr-code/?data={{data.short_url}}" alt=""
+                            title="QR code for {{data.link}}" width="150" height="150" /></td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
